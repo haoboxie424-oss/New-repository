@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Detailed Trades{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>Detailed Trade Record</h1>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Buy Date</th>
+                    <th>Buy Price</th>
+                    <th>Sell Date</th>
+                    <th>Sell Price</th>
+                    <th>Holding Days</th>
+                    <th>Profit %</th>
+                    <th>Sell Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trade in trades %}
+                <tr>
+                    <td>{{ trade.BuyDate }}</td>
+                    <td>{{ trade.BuyPrice }}</td>
+                    <td>{{ trade.SellDate }}</td>
+                    <td>{{ trade.SellPrice }}</td>
+                    <td>{{ trade.HoldingDays }}</td>
+                    <td>{{ trade.ProfitPct }}</td>
+                    <td>{{ trade.SellReason }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

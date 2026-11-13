@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Trade Statistics{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>Overall Trade Statistics</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="label">Total Trades</span>
+            <strong>{{ summary.total_trades }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Winning Trades</span>
+            <strong>{{ summary.win_trades }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Losing Trades</span>
+            <strong>{{ summary.loss_trades }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Win Rate</span>
+            <strong>{{ summary.win_rate }}%</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Average Profit</span>
+            <strong>{{ summary.avg_profit_pct }}%</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Average Holding Days</span>
+            <strong>{{ summary.avg_holding_days }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Total Return</span>
+            <strong>{{ summary.total_return_pct }}%</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Best Trade</span>
+            <strong>{{ summary.best_trade_pct }}%</strong>
+        </div>
+        <div class="stat-card">
+            <span class="label">Worst Trade</span>
+            <strong>{{ summary.worst_trade_pct }}%</strong>
+        </div>
+    </div>
+</div>
+{% endblock %}

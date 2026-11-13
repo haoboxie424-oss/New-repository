@@ -1,0 +1,138 @@
+:root {
+    --bg: #f4f7fb;
+    --panel: #ffffff;
+    --primary: #1d4ed8;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #dfe7f5;
+    --green: #16a34a;
+    --red: #dc2626;
+    --orange: #f59e0b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background: #111827;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px 32px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    padding: 20px;
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.8rem;
+}
+
+.chart-wrap {
+    position: relative;
+    height: 560px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+.stat-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-card .label {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-card strong {
+    font-size: 1.7rem;
+    color: var(--text);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 10px;
+    text-align: left;
+}
+
+th {
+    background: #f8fafc;
+    font-weight: 700;
+}
+
+tr:hover {
+    background: #f9fbff;
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+}

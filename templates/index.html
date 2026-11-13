@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Price Chart{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>MSFT Price Chart</h1>
+    <div class="chart-wrap">
+        <canvas id="priceChart"></canvas>
+    </div>
+</div>
+
+<script>
+const chartData = {{ chart_data|tojson }};
+
+const ctx = document.getElementById('priceChart');
+
+const buyPoints = chartData.buy_points.map(point => ({
+    x: point.x,
+    y: point.y,
+    borderWidth: 0
+}));
+
+const sellPoints = chartData.sell_points.map(point => ({
+    x: point.x,
+    y: point.y,
+    borderWidth: 0
+}));
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: chartData.labels,
+        datasets: [
+            {
+                label: 'Close Price',
+                data: chartData.price,
+                borderColor: '#1f77b4',
+                backgroundColor: 'rgba(31,119,180,0.1)',
+                borderWidth: 2,
+                tension: 0.1,
+                fill: false
+            },
+            {
+                label: 'MA50',
+                data: chartData.ma50,
+                borderColor: '#ff7f0e',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                tension: 0.1,
+                fill: false
+            },
+            {
+                label: 'MA200',
+                data: chartData.ma200,
+                borderColor: '#2ca02c',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                tension: 0.1,
+                fill: false
+            },
+            {
+                label: 'Buy Points',
+                data: buyPoints,
+                type: 'scatter',
+                showLine: false,
+                pointBackgroundColor: '#28a745',
+                pointBorderColor: '#28a745',
+                pointRadius: 5
+            },
+            {
+                label: 'Sell Points',
+                data: sellPoints,
+                type: 'scatter',
+                showLine: false,
+                pointBackgroundColor: '#dc3545',
+                pointBorderColor: '#dc3545',
+                pointRadius: 5
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                type: 'category',
+                labels: chartData.labels,
+                ticks: {
+                    maxTicksLimit: 12,
+                    autoSkip: true
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Price (USD)'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
