@@ -10,24 +10,29 @@ def get_stock_data(ticker, period="5y"):
     return data
 
 # Calculate moving averages
-def calculate_moving_averages(data):
-    data['MA50'] = data['Close'].rolling(window=50).mean()
-    data['MA200'] = data['Close'].rolling(window=200).mean()
+def calculate_moving_averages(data, short_window=50, long_window=200):
+    short_col = f'MA{short_window}'
+    long_col = f'MA{long_window}'
+    data[short_col] = data['Close'].rolling(window=short_window).mean()
+    data[long_col] = data['Close'].rolling(window=long_window).mean()
     return data
 
 # Identify golden cross (buy signals)
-def identify_golden_cross(data):
+def identify_golden_cross(data, short_window=50, long_window=200):
+    short_col = f'MA{short_window}'
+    long_col = f'MA{long_window}'
     data['Signal'] = 0  # Initialize signal column with 0
-    # Golden Cross occurs when MA50 crosses above MA200
-    data['GoldenCross'] = (data['MA50'] > data['MA200']) & (data['MA50'].shift(1) <= data['MA200'].shift(1))
+    # Golden Cross occurs when the short MA crosses above the long MA
+    data['GoldenCross'] = (data[short_col] > data[long_col]) & (data[short_col].shift(1) <= data[long_col].shift(1))
     return data
 
 # Implement trading strategy
-def implement_strategy(data):
+def implement_strategy(data, short_window=50, long_window=200):
     positions = []
 
-    # Need at least 200 days to calculate the 200-day MA
-    data = data.iloc[200:].copy()
+    # Need at least the longest lookback period to calculate the moving averages
+    min_period = max(short_window, long_window)
+    data = data.iloc[min_period:].copy()
 
     buy_dates = data[data['GoldenCross'] == True].index.tolist()
 
@@ -110,18 +115,18 @@ def analyze_results(positions):
     return positions
 
 # Main function
-def main():
+def main(short_window=50, long_window=200):
     # Get stock data
     data = get_stock_data("MSFT")
 
     # Calculate moving averages
-    data = calculate_moving_averages(data)
+    data = calculate_moving_averages(data, short_window, long_window)
 
     # Identify golden cross
-    data = identify_golden_cross(data)
+    data = identify_golden_cross(data, short_window, long_window)
 
     # Implement strategy
-    positions = implement_strategy(data)
+    positions = implement_strategy(data, short_window, long_window)
 
     # Analyze results
     analyze_results(positions)
@@ -130,11 +135,14 @@ def main():
     return positions
 
 
-def run_strategy():
+def run_strategy(short_window=50, long_window=200):
+    if long_window <= short_window:
+        long_window = short_window + 1
+
     data = get_stock_data("MSFT")
-    data = calculate_moving_averages(data)
-    data = identify_golden_cross(data)
-    positions = implement_strategy(data)
+    data = calculate_moving_averages(data, short_window, long_window)
+    data = identify_golden_cross(data, short_window, long_window)
+    positions = implement_strategy(data, short_window, long_window)
 
     total_trades = len(positions)
     win_trades = len(positions[positions['ProfitPct'] > 0]) if not positions.empty else 0
